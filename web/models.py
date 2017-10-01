@@ -1,31 +1,31 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-# Create your models here.
 
+# Create your models here.
 
 class Session(models.Model):
     date = models.DateField()
     start_time = models.TimeField()
     end_time = models.TimeField()
 
-    def __unicode__(self):
-        return '%s' % self.date
+    def __str__(self):
+        return '%s: %s - %s' % (self.date, str(self.start_time), str(self.end_time))
 
 
 class Location(models.Model):
     name = models.CharField(max_length=32)
 
-    def __unicode__(self):
+    def __str__(self):
         return '%s' % self.name
 
 
 class Route(models.Model):
     start_location = models.ForeignKey(Location, related_name='start_location')
     end_location = models.ForeignKey(Location, related_name='end_location')
-    # route_json = models.TextField()
+    route_url = models.CharField(max_length=512)
 
-    def __unicode__(self):
+    def __str__(self):
         return '%s - %s' % (self.start_location.name, self.end_location.name)
 
 

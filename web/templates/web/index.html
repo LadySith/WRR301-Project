@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <div class="map">
+
+      {{games.title|linebreaks}}
+      <iframe '{{ games.embed }}'></iframe>
+
+    </div>
+</head>
+<body>
+
+</body>
+</html>
+
+{% comment %}
+<iframe
+  width="450"
+  height="250"
+  frameborder="0" style="border:0"
+  src="https://www.google.com/maps/embed/v1/directions
+  ?key=AIzaSyCKSmjzdOUoPML_pLaqfOxF6Q---U1_0Ho
+  &origin=Xanadu-+Main
+  &destination=Kings+Beach+Parking+Lot
+  &avoid=tolls|highways" allowfullscreen>
+</iframe>
+
+https://www.google.com/maps/embed/v1/directions
+  ?key=AIzaSyCKSmjzdOUoPML_pLaqfOxF6Q---U1_0Ho
+  &origin=Xanadu-+Main
+  &destination=Kings+Beach+Parking+Lot
+  &avoid=tolls|highways
+
+{% endcomment %}
