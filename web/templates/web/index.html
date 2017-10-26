@@ -8,12 +8,12 @@
                   src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyCKSmjzdOUoPML_pLaqfOxF6Q---U1_0Ho&origin=Xanadu+Main&destination=Kings+Beach+Parking+Lot&avoid=tolls|highways" allowfullscreen>
 </iframe></div>
         <div class="col-md-4 bg-info">
-          <form class="">
+          <form>
             <p class="lead" contenteditable="true">Sign In</p>
             <div class="form-group" id="txtEmail"> <label>Email address</label>
-              <input type="email" class="form-control" placeholder="Enter email"> </div>
+              <input type="email" name="email" class="form-control" placeholder="Enter email"> </div>
             <div class="form-group" id="txtPassword"> <label>Password</label>
-              <input type="password" class="form-control" placeholder="Password"> </div>
+              <input type="password" name="password" class="form-control" placeholder="Password"> </div>
             <button type="submit" class="btn btn-primary" id="btnLogin">Log In</button>
             <a class="btn btn-primary mx-3" href="{% url 'register' %}" id="btnSignin">Register</a>
           </form>
