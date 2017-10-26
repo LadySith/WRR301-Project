@@ -1,0 +1,64 @@
+{% extends 'web/base.html' %}
+{% block content %}
+  <div class="py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1 class="display-1">Search routes</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="py-5">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-12">
+                  <form method="post">
+                    <div class="form-group"> <label>Start Location</label>
+                      <input type="text" name="start_location" class="form-control" placeholder="E.g., South Campus"> </div>
+                    <div class="form-group"> <label>End Location</label>
+                      <input type="text" name="end_location" class="form-control" placeholder="E.g., Humewood"> </div>
+                    <button type="submit" class="btn btn-danger">Search</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="py-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Start Location</th>
+                  <th>End Location</th>
+                  <th>Session</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>South Campus</td>
+                  <td>Humewood</td>
+                  <td>1300 - 1315</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+  </div>
+{% endblock %}

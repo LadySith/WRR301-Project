@@ -1,9 +1,14 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-from django.template import loader
 
 
 # Create your views here.
 def index(request):
-    # template = loader.get_template('')
-    return HttpResponse("<h1>Campus Go</h1>")
+    return render(request, 'web/index.html')
+
+
+def register(request):
+    return render(request, 'web/register.html')
+
+
+def search(request):
+    return render(request, 'web/search.html')
