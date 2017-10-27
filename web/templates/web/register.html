@@ -2,26 +2,33 @@
 {% load static %}
 {% load widget_tweaks %}
 {% block content %}
-  <div class="py-5 bg-primary">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-8">
-          <img class="img-fluid d-block" src="{% static 'web/img/Logo.png' %}"> </div>
-        <div class="col-md-4 bg-info">
-          <form method="post">
-            <p class="lead">Register</p>
-              {% csrf_token %}
-              {% for field in form %}
-            <div class="form-group">
-              {{ field.label_tag }}
-                {% render_field field class='form-control' placeholder=field.label %}
+    <div class="py-5 bg-primary">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <img class="img-fluid d-block" src="{% static 'web/img/Logo.png' %}"></div>
+                <div class="col-md-4 bg-info">
+                    <form method="post">
+                        <p class="lead">Register</p>
+                        {% csrf_token %}
+                        {% for field in form %}
+                            <div class="form-group">
+                                {{ field.label_tag }}
+                                {% with WIDGET_ERROR_CLASS='is-invalid' %}
+                                    {% render_field field class='form-control' placeholder=field.label %}
+                                {% endwith %}
+                                <div class="invalid-feedback">
+                                    {% for error in field.errors %}
+                                        {{ error }}<br>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <button type="submit" class="btn btn-primary" id="btnLogin">Sign Up</button>
+                        <a class="btn btn-primary mx-3" href="{% url 'index' %}" id="btnSignin">Log In</a>
+                    </form>
+                </div>
             </div>
-              {% endfor %}
-            <button type="submit" class="btn btn-primary" id="btnLogin">Sign Up</button>
-            <a class="btn btn-primary mx-3" href="{% url 'index' %}" id="btnSignin">Log In</a>
-          </form>
         </div>
-      </div>
     </div>
-  </div>
 {% endblock %}

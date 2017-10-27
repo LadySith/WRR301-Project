@@ -4,9 +4,15 @@ from web.models import User
 
 
 class RegisterForm(UserCreationForm):
-    first_name = forms.CharField(max_length=32, required=False)
-    last_name = forms.CharField(max_length=32, required=False)
-    email = forms.EmailField(max_length=254, required=False)
+    first_name = forms.CharField(max_length=32, required=True)
+    last_name = forms.CharField(max_length=32, required=True)
+    email = forms.EmailField(max_length=254, required=True)
+
+    def clean_email(self):
+        submitted_data = self.cleaned_data['email']
+        if '@gmail.com' not in submitted_data:
+            raise forms.ValidationError('You must register using a Gmail address')
+        return submitted_data
 
     class Meta:
         model = User
