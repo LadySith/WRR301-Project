@@ -1,10 +1,12 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.http.response import JsonResponse
 from django.shortcuts import render, redirect
 
 
 # Create your views here.
 from web.forms import RegisterForm
+from web.models import Location, Trip
 
 
 def index(request):
@@ -38,4 +40,32 @@ def register(request):
 
 @login_required
 def search(request):
-    return render(request, 'web/search.html')
+    trips = None
+    form_data = None
+    if request.method == 'POST':
+        start_location = request.POST.get('start_location')
+        end_location = request.POST.get('end_location')
+
+        start_location_obj = Location.objects.get(id=start_location)
+        end_location_obj = Location.objects.get(id=end_location)
+
+        form_data = [start_location_obj, end_location_obj]
+
+        trips = Trip.objects.filter(route__start_location__id=start_location, route__end_location__id=end_location)
+    return render(request, 'web/search.html', {'trips': trips, 'form_data': form_data})
+
+
+@login_required
+def location_json(request):
+    json_output = []
+    q = request.GET.get('term', '')
+    locations = Location.objects.filter(name__istartswith=q)
+
+    for location in locations:
+        data = {
+            'value': location.id,
+            'label': location.name
+        }
+        json_output.append(data)
+
+    return JsonResponse(json_output, safe=False)

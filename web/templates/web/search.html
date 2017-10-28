@@ -1,64 +1,136 @@
 {% extends 'web/base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'web/css/vendor/bootstrap-tokenfield.min.css' %}">
+{% endblock %}
+
 {% block content %}
-  <div class="py-5">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <h1 class="display-1">Search routes</h1>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="py-5">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6">
-          <div class="py-5">
-            <div class="container">
-              <div class="row">
+    <div class="py-5">
+        <div class="container">
+            <div class="row">
                 <div class="col-md-12">
-                  <form method="post">
-                    <div class="form-group"> <label>Start Location</label>
-                      <input type="text" name="start_location" class="form-control" placeholder="E.g., South Campus"> </div>
-                    <div class="form-group"> <label>End Location</label>
-                      <input type="text" name="end_location" class="form-control" placeholder="E.g., Humewood"> </div>
-                    <button type="submit" class="btn btn-danger">Search</button>
-                  </form>
+                    <h1 class="display-1">Search routes</h1>
                 </div>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
-  <div class="py-5">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Start Location</th>
-                  <th>End Location</th>
-                  <th>Session</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>South Campus</td>
-                  <td>Humewood</td>
-                  <td>1300 - 1315</td>
-                </tr>
-                <tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+    <div class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="py-5">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        <div class="form-group"><label>Start Location</label>
+                                            <small class="form-text text-muted">E.g., South Campus</small>
+                                            <input type="text" name="start_location" id="id_start_location"
+                                                   class="form-control">
+                                        </div>
+                                        <div class="form-group"><label>End Location</label>
+                                            <small class="form-text text-muted">E.g., Humewood</small>
+                                            <input type="text" name="end_location" class="form-control"
+                                                   id="id_end_location">
+                                        </div>
+                                        <button type="submit" class="btn btn-danger">Search</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-  </div>
+    </div>
+    {% if trips %}
+    <div class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Start Location</th>
+                            <th>End Location</th>
+                            <th>Session</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for trip in trips %}
+                        <tr>
+                            <td>{{ trip.route.start_location.name }}</td>
+                            <td>{{ trip.route.end_location.name }}</td>
+                            <td>{{ trip.session.start_time }} - {{ trip.session.end_time }}</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}
+
+{% block extra_js %}
+    <script type="text/javascript" src="//code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <script src="{% static 'web/js/vendor/bootstrap-tokenfield.min.js' %}"></script>
+    <script>
+        $('#id_start_location').on('tokenfield:createdtoken', function (e) {
+            // When token is created
+        }).tokenfield({
+            autocomplete: {
+                source: function (request, response) {
+                    $.getJSON("{% url 'location_json' %}", {
+                        term: request.term
+                    }, response);
+                },
+                search: function () {
+                    // Only show results when input has at least one letter
+                    var term = this.value;
+                    if (term.length < 1) {
+                        return false;
+                    }
+                },
+                delay: 100
+            },
+            showAutocompleteOnFocus: false,
+            limit: 1,
+            tokens: [
+                {% if form_data %}
+                    {value: '{{ form_data.0.id }}', label: '{{ form_data.0.name }}'}
+                {% endif %}
+            ]
+        });
+
+        $('#id_end_location').on('tokenfield:createdtoken', function (e) {
+            // When token is created
+        }).tokenfield({
+            autocomplete: {
+                source: function (request, response) {
+                    $.getJSON("{% url 'location_json' %}", {
+                        term: request.term
+                    }, response);
+                },
+                search: function () {
+                    // Only show results when input has at least one letter
+                    var term = this.value;
+                    if (term.length < 1) {
+                        return false;
+                    }
+                },
+                delay: 100
+            },
+            showAutocompleteOnFocus: false,
+            limit: 1,
+            tokens: [
+                {% if form_data %}
+                    {value: '{{ form_data.1.id }}', label: '{{ form_data.1.name }}'}
+                {% endif %}
+            ]
+        });
+    </script>
 {% endblock %}

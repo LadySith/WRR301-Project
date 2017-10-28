@@ -22,5 +22,6 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^register/$', views.register, name='register'),
     url(r'^search/$', views.search, name='search'),
+    url(r'^location/json/$', views.location_json, name='location_json'),
 
 ]

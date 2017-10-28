@@ -83,6 +83,9 @@ class Trip(models.Model):
     route = models.ForeignKey(Route)
     session = models.ForeignKey(Session)
 
+    def __str__(self):
+        return '%s --- %s' % (self.route, self.session)
+
 
 class Log(models.Model):
     user = models.ForeignKey(User)
