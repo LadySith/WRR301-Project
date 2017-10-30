@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 from django.conf.global_settings import AUTH_USER_MODEL, LOGIN_URL
@@ -125,3 +126,7 @@ STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = 'web.User'
 LOGIN_URL = 'index'
+
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',
+}

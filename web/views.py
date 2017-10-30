@@ -1,12 +1,12 @@
-from django.contrib.auth import authenticate, login
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ObjectDoesNotExist
 from django.http.response import JsonResponse
 from django.shortcuts import render, redirect
 
 # Create your views here.
 from web.forms import RegisterForm
-from web.models import Location, Trip, Route
+from web.models import Location, Trip, Route, User
 
 
 def index(request):
@@ -83,5 +83,23 @@ def location_json(request):
     return JsonResponse(json_output, safe=False)
 
 
+@login_required
 def settings(request):
     return render(request, 'web/settings.html')
+
+
+@login_required
+def delete_account(request):
+    if request.method == 'POST':
+        password = request.POST.get('password', '')
+
+        if request.user.check_password(password):
+            user = User.objects.get(email=request.user.email)
+            user.delete()
+            logout(request)
+
+            return redirect('index')
+        else:
+            messages.error(request, 'Incorrect Password.')
+
+    return redirect('settings')
