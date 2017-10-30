@@ -1,0 +1,28 @@
+{% extends 'web/base.html' %}
+
+{% block content %}
+    <div class="py-5 text-center bg-dark">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="text-white display-4 text-left">Account Settings</h1>
+                    <h1 class="text-white display-4 text-left">{{ user.first_name }} {{ user.last_name }} <br/>{{ user.email }}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="py-5 text-center bg-dark">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-left">
+                    <a class="btn btn-link btn-lg" href="">Change Password</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-left">
+                    <a class="btn btn-link btn-lg" href="">Remove Account</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

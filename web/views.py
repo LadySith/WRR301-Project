@@ -81,3 +81,7 @@ def location_json(request):
         json_output.append(data)
 
     return JsonResponse(json_output, safe=False)
+
+
+def settings(request):
+    return render(request, 'web/settings.html')

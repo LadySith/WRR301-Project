@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^register/$', views.register, name='register'),
     url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name='logout'),
     url(r'^search/$', views.search, name='search'),
+    url(r'^settings/$', views.settings, name='settings'),
     url(r'^location/json/$', views.location_json, name='location_json'),
 
 ]
