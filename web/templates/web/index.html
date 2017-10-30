@@ -1,32 +1,71 @@
 {% extends 'web/base.html' %}
+{% load widget_tweaks %}
 {% block content %}
 
-      <div class="py-5">
-    <div class="container">
-      <div class="row">
-        <div class="align-self-center col-md-6">
-          <h1 class="text-center text-md-left display-3">Know your way</h1>
-          <p class="lead">We'll make sure you never lose your way to university. The Campus Go Shuttle Portal will show you all shuttle routes to and from your campus of choice with regularly updated timetables</p>
+    <div class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="align-self-center col-md-6">
+                    <h1 class="text-center text-md-left display-3">Know your way</h1>
+                    <p class="lead">We'll make sure you never lose your way to university. The Campus Go Shuttle Portal
+                        will show you all shuttle routes to and from your campus of choice with regularly updated
+                        timetables</p>
 
-        </div>
-        <div class="col-md-6">
-          <div class="card text-white p-5 bg-primary">
-            <div class="card-body">
-              <h1 class="mb-4">Student Login</h1>
-              <form method="post">
-                  {% csrf_token %}
-                <div class="form-group"> <label>Email address</label>
-                  <input type="email" name="email" class="form-control" placeholder="Enter email"> </div>
-                <div class="form-group"> <label>Password</label>
-                  <input type="password" name="password" class="form-control" placeholder="Password"> </div>
-                <button type="submit" class="btn btn-secondary">Login</button>
-                <a href="{% url 'register' %}" class="btn btn-secondary">Register</a>
-                <a href="#" class="btn btn-primary">Forgot password?</a>
-              </form>
+                </div>
+                <div class="col-md-6">
+                    <div class="card text-white p-5 bg-primary">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a class="nav-link text-white" href="#login" data-toggle="tab">Login</a>
+                            </li>
+                            <li>
+                                <a class="nav-link text-white" href="#create" data-toggle="tab">Create Account</a>
+                            </li>
+                        </ul>
+                        <div id="myTabContent" class="tab-content">
+                            <div class="tab-pane active in" id="login">
+                                <div class="card-body">
+                                    <h1 class="mb-4">Student Login</h1>
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        <div class="form-group"><label>Email address</label>
+                                            <input type="email" name="email" class="form-control"
+                                                   placeholder="Enter email"></div>
+                                        <div class="form-group"><label>Password</label>
+                                            <input type="password" name="password" class="form-control"
+                                                   placeholder="Password"></div>
+                                        <button type="submit" class="btn btn-secondary">Login</button>
+                                        <a href="{% url 'register' %}" class="btn btn-secondary">Register</a>
+                                        <a href="#" class="btn btn-primary">Forgot password?</a>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="create">
+                                <div class="card-body">
+                                    <h1 class="mb-4">Register</h1>
+                                    <form method="post" action="{% url 'register' %}">
+                                        {% csrf_token %}
+                                        {% for field in registerForm %}
+                                            <div class="form-group">
+                                                {{ field.label_tag }}
+                                                {% with WIDGET_ERROR_CLASS='is-invalid' %}
+                                                    {% render_field field class='form-control' placeholder=field.label %}
+                                                {% endwith %}
+                                                <div class="invalid-feedback">
+                                                    {% for error in field.errors %}
+                                                        {{ error }}<br>
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                        <button type="submit" class="btn btn-secondary" id="btnRegister">Register
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 {% endblock %}

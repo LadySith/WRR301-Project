@@ -10,6 +10,7 @@ from web.models import Location, Trip, Route, User
 
 
 def index(request):
+    registerForm = RegisterForm()
     if request.user.is_authenticated:
         return redirect('search')
     if request.method == 'POST':
@@ -19,7 +20,7 @@ def index(request):
         if user is not None:
             login(request, user)
             return redirect('search')
-    return render(request, 'web/index.html')
+    return render(request, 'web/index.html', {'registerForm': registerForm})
 
 
 def register(request):
