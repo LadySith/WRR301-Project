@@ -40,42 +40,49 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <img class="d-block img-fluid"
-                         src="https://maps.googleapis.com/maps/api/staticmap?key=AIzaSyDW8nO9JhT_pEjebobq9pgUF2cEp0EUb1I&amp;markers=New+York+City&amp;center=New+York+City&amp;zoom=12&amp;size=640x480&amp;sensor=false">
+                    {% if route %}
+                        <iframe src="{{ route.route_url }}" width="600" height="450" frameborder="0" style="border:0"
+                                allowfullscreen></iframe>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
-    {% if trips %}
+    {% if trips or error_msg %}
         <div class="py-5">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Start Location</th>
-                                <th>End Location</th>
-                                <th>Session</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for trip in trips %}
+                        <p class="lead text-center">{{ error_msg|default:"" }}</p>
+
+                        {% if trips %}
+                            <table class="table">
+                                <thead>
                                 <tr>
-                                    <td>{{ trip.session.date }}</td>
-                                    <td>{{ trip.route.start_location.name }}</td>
-                                    <td>{{ trip.route.end_location.name }}</td>
-                                    <td>{{ trip.session.start_time }} - {{ trip.session.end_time }}</td>
+                                    <th>Date</th>
+                                    <th>Start Location</th>
+                                    <th>End Location</th>
+                                    <th>Session</th>
                                 </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                {% for trip in trips %}
+                                    <tr>
+                                        <td>{{ trip.session.date }}</td>
+                                        <td>{{ trip.route.start_location.name }}</td>
+                                        <td>{{ trip.route.end_location.name }}</td>
+                                        <td>{{ trip.session.start_time }} - {{ trip.session.end_time }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        {% endif %}
                     </div>
                 </div>
             </div>
         </div>
     {% endif %}
+
 {% endblock %}
 
 {% block extra_js %}

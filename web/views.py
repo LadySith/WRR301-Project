@@ -1,12 +1,12 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
 from django.http.response import JsonResponse
 from django.shortcuts import render, redirect
 
-
 # Create your views here.
 from web.forms import RegisterForm
-from web.models import Location, Trip
+from web.models import Location, Trip, Route
 
 
 def index(request):
@@ -42,17 +42,29 @@ def register(request):
 def search(request):
     trips = None
     form_data = None
+    route = None
+    error_msg = None
     if request.method == 'POST':
-        start_location = request.POST.get('start_location')
-        end_location = request.POST.get('end_location')
+        start_location = request.POST.get('start_location', -1)
+        end_location = request.POST.get('end_location', -1)
 
-        start_location_obj = Location.objects.get(id=start_location)
-        end_location_obj = Location.objects.get(id=end_location)
+        try:
+            start_location_obj = Location.objects.get(id=start_location)
+            end_location_obj = Location.objects.get(id=end_location)
 
-        form_data = [start_location_obj, end_location_obj]
+            route = Route.objects.get(start_location=start_location_obj, end_location=end_location_obj)
 
-        trips = Trip.objects.filter(route__start_location__id=start_location, route__end_location__id=end_location)
-    return render(request, 'web/search.html', {'trips': trips, 'form_data': form_data})
+            form_data = [start_location_obj, end_location_obj]
+
+            trips = Trip.objects.filter(route=route)
+        except (ValueError, Location.DoesNotExist):
+            error_msg = 'Start/End Location not found'
+        except Route.DoesNotExist:
+            error_msg = 'Route not found'
+        except:
+            print(start_location)
+    return render(request, 'web/search.html',
+                  {'trips': trips, 'form_data': form_data, 'route': route, 'error_msg': error_msg})
 
 
 @login_required
