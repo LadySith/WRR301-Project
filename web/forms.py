@@ -10,8 +10,8 @@ class RegisterForm(UserCreationForm):
 
     def clean_email(self):
         submitted_data = self.cleaned_data['email']
-        if '@gmail.com' not in submitted_data:
-            raise forms.ValidationError('You must register using a Gmail address')
+        if ('@nmmu.ac.za' or '@mandela.ac.za') not in submitted_data:
+            raise forms.ValidationError('You must register using a valid university email address')
         return submitted_data
 
     class Meta:
