@@ -6,72 +6,75 @@
 {% endblock %}
 
 {% block content %}
-    <div class="py-5">
+    <div class="py-5 text-center bg-dark">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 class="display-1">Search routes</h1>
+                    <h1 class="text-white display-4">Find Trips</h1>
                 </div>
             </div>
         </div>
     </div>
-    <div class="py-5">
+
+    <div class="py-5 text-white bg-dark">
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <div class="py-5">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <form method="post">
-                                        {% csrf_token %}
-                                        <div class="form-group"><label>Start Location</label>
-                                            <small class="form-text text-muted">E.g., South Campus</small>
-                                            <input type="text" name="start_location" id="id_start_location"
-                                                   class="form-control">
-                                        </div>
-                                        <div class="form-group"><label>End Location</label>
-                                            <small class="form-text text-muted">E.g., Humewood</small>
-                                            <input type="text" name="end_location" class="form-control"
-                                                   id="id_end_location">
-                                        </div>
-                                        <button type="submit" class="btn btn-danger">Search</button>
-                                    </form>
+                    <div class="card">
+                        <div class="card-body bg-secondary">
+                            <form method="post">
+                                {% csrf_token %}
+                                <div class="form-group"><label>Start Location</label>
+                                    <small class="form-text text-muted">E.g., South Campus</small>
+                                    <input type="text" name="start_location" id="id_start_location"
+                                           class="form-control">
                                 </div>
-                            </div>
+                                <div class="form-group"><label>End Location</label>
+                                    <small class="form-text text-muted">E.g., Humewood</small>
+                                    <input type="text" name="end_location" class="form-control"
+                                           id="id_end_location">
+                                </div>
+                                <button type="submit" class="btn btn-danger">Search</button>
+                            </form>
                         </div>
                     </div>
+                </div>
+                <div class="col-md-6">
+                    <img class="d-block img-fluid"
+                         src="https://maps.googleapis.com/maps/api/staticmap?key=AIzaSyDW8nO9JhT_pEjebobq9pgUF2cEp0EUb1I&amp;markers=New+York+City&amp;center=New+York+City&amp;zoom=12&amp;size=640x480&amp;sensor=false">
                 </div>
             </div>
         </div>
     </div>
     {% if trips %}
-    <div class="py-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th>Start Location</th>
-                            <th>End Location</th>
-                            <th>Session</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for trip in trips %}
-                        <tr>
-                            <td>{{ trip.route.start_location.name }}</td>
-                            <td>{{ trip.route.end_location.name }}</td>
-                            <td>{{ trip.session.start_time }} - {{ trip.session.end_time }}</td>
-                        </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
+        <div class="py-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Start Location</th>
+                                <th>End Location</th>
+                                <th>Session</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for trip in trips %}
+                                <tr>
+                                    <td>{{ trip.session.date }}</td>
+                                    <td>{{ trip.route.start_location.name }}</td>
+                                    <td>{{ trip.route.end_location.name }}</td>
+                                    <td>{{ trip.session.start_time }} - {{ trip.session.end_time }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     {% endif %}
 {% endblock %}
 
