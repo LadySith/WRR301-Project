@@ -1,32 +1,41 @@
 {% extends 'web/base.html' %}
+{% load staticfiles%}
 {% load static %}
 {% load widget_tweaks %}
 {% block content %}
-    <div class="py-5">
+    <div class="py-5" style="background-image: url({% static 'web/img/NMU.jpg' %})">
         <div class="container">
             <div class="row">
-                <div class="col-md-8">
-                    <img class="img-fluid d-block" src="{% static 'web/img/Logo.png' %}"></div>
-                <div class="col-md-4 bg-primary">
-                    <form method="post">
-                        <h1>Register</h1>
-                        {% csrf_token %}
-                        {% for field in form %}
-                            <div class="form-group">
-                                {{ field.label_tag }}
-                                {% with WIDGET_ERROR_CLASS='is-invalid' %}
-                                    {% render_field field class='form-control' placeholder=field.label %}
-                                {% endwith %}
-                                <div class="invalid-feedback">
-                                    {% for error in field.errors %}
-                                        {{ error }}<br>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        {% endfor %}
-                        <button type="submit" class="btn btn-secondary" id="btnLogin">Sign Up</button>
-                        <a class="btn btn-secondary mx-3" href="{% url 'index' %}" id="btnSignin">Log In</a>
-                    </form>
+                <div class="align-self-center col-md-6">
+                    <h1 class="text-center text-white text-md-left display-3">Know your way</h1>
+                    <p class="lead text-white">We'll make sure you never lose your way to university. The Campus Go Shuttle Portal
+                        will show you all shuttle routes to and from your campus of choice with regularly updated
+                        timetables</p>
+                </div>
+                <div class="col-md-6">
+                    <div class="card text-white p-5 bg-primary">
+                        <div class="card-body">
+                        <h1 class="mb-4">Register</h1>
+                            <form method="post">
+                                {% csrf_token %}
+                                {% for field in form %}
+                                    <div class="form-group">
+                                        {{ field.label_tag }}
+                                        {% with WIDGET_ERROR_CLASS='is-invalid' %}
+                                            {% render_field field class='form-control' placeholder=field.label %}
+                                        {% endwith %}
+                                        <div class="invalid-feedback">
+                                            {% for error in field.errors %}
+                                                {{ error }}<br>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                                <button type="submit" class="btn btn-secondary" id="btnLogin">Sign Up</button>
+                                <a class="btn btn-secondary mx-3" href="{% url 'index' %}" id="btnSignin">Log In</a>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
