@@ -1,0 +1,1 @@
+web: gunicorn CampusGo.wsgi --log-file -
